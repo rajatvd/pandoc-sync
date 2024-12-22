@@ -4,15 +4,24 @@ from pathlib import Path
 import sys
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+from datetime import datetime as dt
+
+TIME_FORMAT = "[%Y-%m-%d %a %H:%M:%S%z]"
 
 
 def convert_md_to_docx(markdown_file, docx_file):
-    print(f"Syncing '{markdown_file}' to '{docx_file}'.")
+    # add time stamp to print message
+    print(
+        f"{dt.now().strftime(TIME_FORMAT)} -- Syncing '{markdown_file}' to '{docx_file}'."
+    )
     subprocess.run(["pandoc", str(markdown_file), "-o", str(docx_file)])
 
 
 def convert_docx_to_md(docx_file, markdown_file):
-    print(f"Syncing '{docx_file}' to '{markdown_file}'.")
+    # add time stamp to print message
+    print(
+        f"{dt.now().strftime(TIME_FORMAT)} -- Syncing '{docx_file}' to '{markdown_file}'."
+    )
     subprocess.run(["pandoc", str(docx_file), "-o", str(markdown_file)])
 
 
