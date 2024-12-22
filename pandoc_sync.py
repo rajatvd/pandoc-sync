@@ -16,7 +16,7 @@ def convert_docx_to_md(docx_file, markdown_file):
     subprocess.run(["pandoc", str(docx_file), "-o", str(markdown_file)])
 
 
-time_delta = 10  # seconds
+TIME_DELTA = 10  # seconds
 
 
 class FileSyncHandler(FileSystemEventHandler):
@@ -40,10 +40,10 @@ class FileSyncHandler(FileSystemEventHandler):
 
         # print(f"time diff: {md_mtime - docx_mtime}")
         # Sync logic with debouncing
-        if (md_mtime - docx_mtime) > time_delta and (current_time - last_sync) > 1:
+        if (md_mtime - docx_mtime) > TIME_DELTA and (current_time - last_sync) > 1:
             convert_md_to_docx(markdown_file, docx_file)
             self.last_sync_time[markdown_file] = current_time
-        elif (docx_mtime - md_mtime) > time_delta and (current_time - last_sync) > 1:
+        elif (docx_mtime - md_mtime) > TIME_DELTA and (current_time - last_sync) > 1:
             convert_docx_to_md(docx_file, markdown_file)
             self.last_sync_time[markdown_file] = current_time
 
@@ -87,7 +87,7 @@ def monitor_directory(directory):
 
     try:
         while True:
-            time.sleep(5)
+            time.sleep(TIME_DELTA)
             for file in directory_path.iterdir():
                 if file.suffix == ".md":
                     docx_file = file.with_suffix(".docx")
